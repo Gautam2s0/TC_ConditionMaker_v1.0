@@ -5,7 +5,7 @@ let data2 = [];
 let cl = 0;
 let One_on_one_count = 0;
 let conditionCreate = false;
-let Condition_as_xml_count=0
+let Condition_as_xml_count = 0;
 let prefixName;
 
 const encodingSelect = document.getElementById("encodingSelect");
@@ -18,17 +18,17 @@ function parseXML() {
   let fileInput = document.getElementById("fileInput");
   data = [];
   One_on_one_count = 0;
-  Condition_as_xml_count=0
+  Condition_as_xml_count = 0;
 
   if (fileInput.files.length > 0) {
     filenames = Array.from(fileInput.files);
     for (let file of filenames) {
       parseFile(file);
     }
-    table.style.width="60%"
-    encodingSelect.style.display="block"
-    document.getElementById("encoding").style.display="block"
-    document.getElementById("encoding").style.width="20%"
+    table.style.width = "60%";
+    encodingSelect.style.display = "block";
+    document.getElementById("encoding").style.display = "block";
+    document.getElementById("encoding").style.width = "20%";
   } else {
     alert("Please select the XML file.");
   }
@@ -47,7 +47,7 @@ function parseFile(file) {
     let xmlDoc = parser.parseFromString(xmlString, "text/xml");
     let preferences = xmlDoc.querySelectorAll("preference");
     parsePreferences(preferences, groupName);
-  displayTable(data);
+    // displayTable(data);
   };
   reader.readAsArrayBuffer(file);
 }
@@ -126,6 +126,11 @@ function displayTable(data) {
   msg.style.display = "none";
 }
 
+// ############################################################################
+// ################################################################################
+// ###################################################################################
+//##############################################################################
+
 // ###################  Download the Workflow Name, object_type, and group_name in Excel format.    #######################
 
 function WOG_in_Excel(data) {
@@ -175,7 +180,7 @@ function One_on_one() {
   One_on_one_count++;
 }
 
-// Creating Excel for Condtion 
+// Creating Excel for Condtion
 function CreatingConditionExcel(data2) {
   if (data2.length === 0) {
     alert("Please parse an XML file first.");
@@ -185,7 +190,7 @@ function CreatingConditionExcel(data2) {
   /* Create worksheet data */
   let wsData = [["Workflow Name", "Condition Name", "Condition"]];
   for (let el of data2) {
-    wsData.push([el[0], el[1],el[2]]);
+    wsData.push([el[0], el[1], el[2]]);
   }
 
   /* Create a worksheet */
@@ -210,10 +215,10 @@ function generateXMLConditions() {
     prefixName = window.prompt("Please enter your prefix Name like G5_ or G5");
   }
 
-  ClearPrefixName(prefixName)
+  ClearPrefixName(prefixName);
 
   for (let key in objdata) {
-    let cleanName=trim(objdata[key].SameWorkflowCondtion[0])
+    let cleanName = trim(objdata[key].SameWorkflowCondtion[0]);
     const objectTypes = objdata[key].object_type
       .map((type) => `wo.object_type=&quot;${type}&quot;`)
       .join(" OR ");
@@ -250,14 +255,14 @@ function generateXMLConditions() {
   }
   xmlOutput += `</Root>`;
   TableRowNameChange("Condition Name", "Condition as XML");
-  displayTable(wsData);
-  if(Condition_as_xml_count===0){
-  Excel(wsData, "Condtion_as_XML");
-  setTimeout(() => {
-    XML(xmlOutput);
-  }, 5000);
-}
-Condition_as_xml_count++;
+  displayTable(wsData.splice(1,wsData.length));
+  if (Condition_as_xml_count === 0) {
+    Excel(wsData, "Condtion_as_XML");
+    setTimeout(() => {
+      XML(xmlOutput);
+    }, 5000);
+  }
+  Condition_as_xml_count++;
 }
 
 // ******************** Creating Excel ***************************************************
@@ -387,26 +392,26 @@ function TableRowNameChange(n1, n2) {
 }
 
 //  Removing all the special character, white space ,paranthesis etc.
-function trim(name){
-  return name.replace(/[ü]/g, "ue")
-  .replace(/[ö]/g, "oe")
-  .replace(/[ä]/g, "ae")
-  .replace(/[ß]/g, "ss")
-  .replace(/[.,\/()\\-]/g, "")
-  .replace(/\s+/g, "_");
-
+function trim(name) {
+  return name
+    .replace(/[ü]/g, "ue")
+    .replace(/[ö]/g, "oe")
+    .replace(/[ä]/g, "ae")
+    .replace(/[ß]/g, "ss")
+    .replace(/[.,\/()\\-]/g, "")
+    .replace(/\s+/g, "_");
 }
 
-function ClearPrefixName(prefixName){
+function ClearPrefixName(prefixName) {
   let lastChar = prefixName[prefixName.length - 1];
   if (lastChar != "_") {
     prefixName += "_";
   }
   return prefixName;
+}
+
+
+function ChangeStyle(){
 
 }
 console.log({ EN: encodingSelect.value });
-
-
-`${prefixName}_${trim(key)}`
-
