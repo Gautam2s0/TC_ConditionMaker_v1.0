@@ -1,0 +1,224 @@
+ body {
+    margin: 0;
+    padding: 0;
+    text-align: start;
+    color: blue;
+    background:#000;
+    color: cyan;
+    padding-bottom: 3%;
+    font-weight: 500;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1{
+  color:#fff
+}
+
+
+
+table
+ {
+    border: 5px solid yellow;
+   color: #ffff;
+   background: #000080;
+    
+   
+}
+th{
+  
+  border-bottom: 5px solid yellow;
+  border-right: 2px solid yellow;
+  color: rgb(0, 255, 0);
+ 
+}
+td{
+  border: 2px solid yellowgreen;
+  border-left-color: #006400;
+  border-top: none;
+  border-left: none;
+}
+td:last-child,th:last-child{
+  border-right: none;
+}
+
+.file-input-container {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+ .custom-file-input-label {
+    background-color: darkblue;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 5%;
+  } 
+  */
+  /* Hide the default file input */
+  input[type="file"] {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 10%;
+    top: 0;
+    left: 0;
+    
+   
+    
+  }
+   
+  .nvbr{
+    width: 100%;
+    height: 60px;
+    background: #2E8B57;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+    color: #ffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+ 
+  #b1,#b2,#b3,#b4{
+    width: 15%;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 20%;
+    padding: 0 25px 0 25px
+  }
+#label{
+  background: #FF00FF;
+
+  font-weight: 600;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  
+  
+
+}
+ 
+#fileInput{
+  display: none;
+}
+
+#label:hover{
+  background: blue;
+  scale: 1.3 1;
+  animation-name: example;
+  animation-iteration-count: infinite;
+  animation-duration: 5s;
+  border-radius: 10px;
+  
+ 
+}
+
+#b1:hover,#b2:hover,#b3:hover{
+  border:7px solid #49453e ;
+  background: rgb(227, 243, 3);
+  border-bottom: none;
+  border-right: none;
+  color: blue;
+  
+}
+#b2:hover{
+  background: teal;
+  border:7px solid yellow ;
+  border-top: none;
+  border-left: none;
+  color: #fff;
+}
+#b3:hover{
+  background-color:#FF00FF ;
+  border:7px solid  rgb(0, 217, 255);
+  border-top: none;
+  border-right: none;
+  color: #fff;
+}
+
+#b4:hover{
+  background-color:cyan;
+  color: blue;
+  border:7px solid black ;
+  border-top: none;
+  border-right: none;
+}
+
+#result{
+  width: 60%;
+  margin: auto;
+  margin-top: 7%;
+}
+
+#msg{
+  max-width: 60%;
+  margin: auto;
+  margin-top: 5%;
+  
+}
+#msg h1{
+  font-size: 40px;
+  text-align: center;
+  
+}
+#msg li{
+  font-weight: 700;
+  color:#FF6347;
+  font-size: 18px;
+}
+#msg p{
+  font-weight: 400;
+  color: #fff;
+  font-size: 16px;
+}
+
+
+@keyframes example {
+  0%   {background-color: #FF00FF;}
+  25%  {background-color: red;}
+  50%  {background-color: blue;}
+  100% {background-color: #006400;}
+}
+
+
+
+.encoding{
+  max-width: 20%;
+  margin-top: 4.5%;
+  background: #000;
+  color: red;
+  display: flex;
+  justify-content: right;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+#encodingSelect{
+  max-width: 100%;
+  color: rgb(242, 243, 239);
+  height: 50px;
+  font-size: 1rem;
+  background: #000;
+  border: 2px solid ;
+  border-radius: 5px;
+  padding: 0 0.5%;
+  margin-right: 2%;
+  
+}
+#encodingSelect option{
+  max-width: 20px;
+  background-color: #3607df;
+  font-size: 14px;
+  color:cyan;
+  
+}
