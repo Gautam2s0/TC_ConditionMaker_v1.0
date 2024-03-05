@@ -360,6 +360,7 @@ function trim(name) {
         .replace(/[ä]/g, "ae")
         .replace(/[Ä]/g, "Ae")
         .replace(/[ß]/g, "ss")
+        .replace(/[.,\/()\\=>-]/g, "")
         .replace(/^[a-zA-Z]+(_[a-zA-Z]+)*$/, "")
         .replace(/\s+/g, "_");
 }
