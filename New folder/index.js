@@ -270,45 +270,45 @@ function generateXMLConditions() {
     }
 }
 
-function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
-    for (let el of object_type) {
-      if (!Uniquegroup.includes(el.group)) {
-        Uniquegroup.push(el.group);
-      }
-    }
-    for (let i = 0; i < object_type.length; i++){
-        if (Uniquegroup.length <= 1) {
-            if (i === 0) {
-                Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
-              } else {
-                Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
-              }
+// function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
+//     for (let el of object_type) {
+//       if (!Uniquegroup.includes(el.group)) {
+//         Uniquegroup.push(el.group);
+//       }
+//     }
+//     for (let i = 0; i < object_type.length; i++){
+//         if (Uniquegroup.length <= 1) {
+//             if (i === 0) {
+//                 Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
+//               } else {
+//                 Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
+//               }
 
-        }
-        else{
-            if (i === 0) {
-                if (object_type[i].group == "site") {
-                  Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
-                } else
-                  Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-              } else {
-                if (object_type[i].group === "site") {
-                  Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
-                } else {
-                  Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-                }
-              }
+//         }
+//         else{
+//             if (i === 0) {
+//                 if (object_type[i].group == "site") {
+//                   Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
+//                 } else
+//                   Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+//               } else {
+//                 if (object_type[i].group === "site") {
+//                   Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
+//                 } else {
+//                   Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+//                 }
+//               }
 
-        }
+//         }
 
-    }
-    data2.push({
-        workflow: key,
-        condition_name: `${prefixName}${trim(key)}`,
-        condition: Condtion_Concate,
-      });
+//     }
+//     data2.push({
+//         workflow: key,
+//         condition_name: `${prefixName}${trim(key)}`,
+//         condition: Condtion_Concate,
+//       });
      
-  }
+//   }
 
 function generateXMLConditions() {
   if (data.length === 0) {
