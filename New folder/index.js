@@ -142,173 +142,173 @@ function One_on_one() {
   
 }
 
-// function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
-//   for (let el of object_type) {
-//     if (!Uniquegroup.includes(el.group)) {
-//       Uniquegroup.push(el.group);
-//     }
-//   }
-//   if (Uniquegroup.length <= 1) {
-//     for (let i = 0; i < object_type.length; i++) {
-//       if (i === 0) {
-//         Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
-//       } else {
-//         Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
-//       }
-//     }
-//     let group = ` AND (us.group_name="${Uniquegroup[0]}"`;
-//     Condtion_Concate = `(${Condtion_Concate})${
-//       Uniquegroup[0] === "site" ? "" : group
-//     })`;
-//   } else {
-//     for (let i = 0; i < object_type.length; i++) {
-//       if (i === 0) {
-//         if (object_type[i].group == "site") {
-//           Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
-//         } else
-//           Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-//       } else {
-//         if (object_type[i].group === "site") {
-//           Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
-//         } else {
-//           Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-//         }
-//       }
-//     }
-//   }
-//   data2.push({
-//     workflow: key,
-//     condition_name: `${prefixName}${trim(key)}`,
-//     condition: Condtion_Concate,
-//   });
-// }
+function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
+  for (let el of object_type) {
+    if (!Uniquegroup.includes(el.group)) {
+      Uniquegroup.push(el.group);
+    }
+  }
+  if (Uniquegroup.length <= 1) {
+    for (let i = 0; i < object_type.length; i++) {
+      if (i === 0) {
+        Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
+      } else {
+        Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
+      }
+    }
+    let group = ` AND (us.group_name="${Uniquegroup[0]}"`;
+    Condtion_Concate = `(${Condtion_Concate})${
+      Uniquegroup[0] === "site" ? "" : group
+    })`;
+  } else {
+    for (let i = 0; i < object_type.length; i++) {
+      if (i === 0) {
+        if (object_type[i].group == "site") {
+          Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
+        } else
+          Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+      } else {
+        if (object_type[i].group === "site") {
+          Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
+        } else {
+          Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+        }
+      }
+    }
+  }
+  data2.push({
+    workflow: key,
+    condition_name: `${prefixName}${trim(key)}`,
+    condition: Condtion_Concate,
+  });
+}
 
-// // ******************************************  Creating XML for Condtion *****************************
+// ******************************************  Creating XML for Condtion *****************************
 
-// function generateXMLConditions() {
-//     let count = 1;
-//     organizedData = []
-//     FormatData(prefixName);
+function generateXMLConditions() {
+    let count = 1;
+    organizedData = []
+    FormatData(prefixName);
 
-//     // const organizedData = Object.values(organizedData);
-//     let wsData = [["Workflow Name", "Condition Name", "Condition XML"]];
-//     let xmlOutput = `<?xml version="1.0" encoding="UTF-8"?>\n<Root>\n`;
-//     if (data.length === 0) {
-//         alert("Please parse an XML file first.");
-//         return;
-//     }
+    // const organizedData = Object.values(organizedData);
+    let wsData = [["Workflow Name", "Condition Name", "Condition XML"]];
+    let xmlOutput = `<?xml version="1.0" encoding="UTF-8"?>\n<Root>\n`;
+    if (data.length === 0) {
+        alert("Please parse an XML file first.");
+        return;
+    }
 
-//     prefixName = Prefix(prefixName)
+    prefixName = Prefix(prefixName)
 
-//     for (const elem of organizedData) {
-//         let cheker = [];
-//         let concate = "";
-//         let cleanName = trim(elem.workflow[0]);
-//         elem.objects.map((el) =>
-//             cheker.includes(el.group) ? "" : cheker.push(el.group)
-//         );
-//         if (cheker.length <= 1) {
-//             for (let i = 0; i < elem.objects.length; i++) {
-//                 if (i == 0) {
-//                     concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot;`;
-//                 } else {
-//                     concate += ` OR wo.object_type=&quot;${elem.objects[i].object_type}&quot;`;
-//                 }
-//             }
-//             concate += ")";
-//             if (cheker[0] != "site") {
-//                 concate += ` AND (us.group_name=quot;${cheker[0]}&quot;)`;
-//             }
+    for (const elem of organizedData) {
+        let cheker = [];
+        let concate = "";
+        let cleanName = trim(elem.workflow[0]);
+        elem.objects.map((el) =>
+            cheker.includes(el.group) ? "" : cheker.push(el.group)
+        );
+        if (cheker.length <= 1) {
+            for (let i = 0; i < elem.objects.length; i++) {
+                if (i == 0) {
+                    concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot;`;
+                } else {
+                    concate += ` OR wo.object_type=&quot;${elem.objects[i].object_type}&quot;`;
+                }
+            }
+            concate += ")";
+            if (cheker[0] != "site") {
+                concate += ` AND (us.group_name=quot;${cheker[0]}&quot;)`;
+            }
 
-//         } else {
-//             for (let i = 0; i < elem.objects.length; i++) {
-//                 //AND us.group_name=&quot;dba&quot;
+        } else {
+            for (let i = 0; i < elem.objects.length; i++) {
+                //AND us.group_name=&quot;dba&quot;
 
-//                 if (i == 0) {
-//                     if (elem.objects[i].group == "site") {
-//                         concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
-//                     } else {
-//                         concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
-//                     }
-//                 } else {
-//                     if (elem.objects[i].group == "site") {
-//                         concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
-//                     } else {
-//                         concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
-//                     }
-//                 }
-//             }
+                if (i == 0) {
+                    if (elem.objects[i].group == "site") {
+                        concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
+                    } else {
+                        concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
+                    }
+                } else {
+                    if (elem.objects[i].group == "site") {
+                        concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
+                    } else {
+                        concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
+                    }
+                }
+            }
 
-//         }
+        }
 
-//         let desc = [...elem.workflow];
-//         let f = desc.slice(-2).join(" and ");
-//         if (elem.workflow.length > 1) {
-//             cleanName = `COMMON_CND${count++}`;
-//             desc = elem.workflow.slice(0, elem.workflow.length - 2);
-//             desc.push(f);
-//         }
-//         let p = `  <Condition name="${prefixName}WF_${cleanName}" expression="${concate}" secured="false" description="Workflow condition for ${desc.join(
-//             ", "
-//         )}">
-//     <ConditionParameter name="wo" parameterTypeName="WorkspaceObject"/>
-//     <ConditionParameter name="it" parameterTypeName="ImanType"/>
-//     <ConditionParameter name="us" parameterTypeName="UserSession"/>
-//     </Condition>`;
+        let desc = [...elem.workflow];
+        let f = desc.slice(-2).join(" and ");
+        if (elem.workflow.length > 1) {
+            cleanName = `COMMON_CND${count++}`;
+            desc = elem.workflow.slice(0, elem.workflow.length - 2);
+            desc.push(f);
+        }
+        let p = `  <Condition name="${prefixName}WF_${cleanName}" expression="${concate}" secured="false" description="Workflow condition for ${desc.join(
+            ", "
+        )}">
+    <ConditionParameter name="wo" parameterTypeName="WorkspaceObject"/>
+    <ConditionParameter name="it" parameterTypeName="ImanType"/>
+    <ConditionParameter name="us" parameterTypeName="UserSession"/>
+    </Condition>`;
 
-//         wsData.push({ workflow: elem.workflow.join("     \n"), condition_name: `${prefixName}WF_${cleanName}`, condition: p });
-//         xmlOutput += `${p}\n`;
-//     }
+        wsData.push({ workflow: elem.workflow.join("     \n"), condition_name: `${prefixName}WF_${cleanName}`, condition: p });
+        xmlOutput += `${p}\n`;
+    }
 
-//     xmlOutput += `</Root>`;
-//     TableRowNameChange("Condition Name", "Condition as XML");
-//     //TableRowNameChange("Condition Name", "Condition as XML");
-//     displayTable(wsData.slice(1, wsData.length));
-//     if (Condition_as_xml_count === 0) {
-//         XML(xmlOutput);
-//         Condition_as_xml_count++;
-//     }
-// }
+    xmlOutput += `</Root>`;
+    TableRowNameChange("Condition Name", "Condition as XML");
+    //TableRowNameChange("Condition Name", "Condition as XML");
+    displayTable(wsData.slice(1, wsData.length));
+    if (Condition_as_xml_count === 0) {
+        XML(xmlOutput);
+        Condition_as_xml_count++;
+    }
+}
 
-// function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
-//     for (let el of object_type) {
-//       if (!Uniquegroup.includes(el.group)) {
-//         Uniquegroup.push(el.group);
-//       }
-//     }
-//     for (let i = 0; i < object_type.length; i++){
-//         if (Uniquegroup.length <= 1) {
-//             if (i === 0) {
-//                 Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
-//               } else {
-//                 Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
-//               }
+function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
+    for (let el of object_type) {
+      if (!Uniquegroup.includes(el.group)) {
+        Uniquegroup.push(el.group);
+      }
+    }
+    for (let i = 0; i < object_type.length; i++){
+        if (Uniquegroup.length <= 1) {
+            if (i === 0) {
+                Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
+              } else {
+                Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
+              }
 
-//         }
-//         else{
-//             if (i === 0) {
-//                 if (object_type[i].group == "site") {
-//                   Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
-//                 } else
-//                   Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-//               } else {
-//                 if (object_type[i].group === "site") {
-//                   Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
-//                 } else {
-//                   Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-//                 }
-//               }
+        }
+        else{
+            if (i === 0) {
+                if (object_type[i].group == "site") {
+                  Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
+                } else
+                  Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+              } else {
+                if (object_type[i].group === "site") {
+                  Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
+                } else {
+                  Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+                }
+              }
 
-//         }
+        }
 
-//     }
-//     data2.push({
-//         workflow: key,
-//         condition_name: `${prefixName}${trim(key)}`,
-//         condition: Condtion_Concate,
-//       });
+    }
+    data2.push({
+        workflow: key,
+        condition_name: `${prefixName}${trim(key)}`,
+        condition: Condtion_Concate,
+      });
      
-//   }
+  }
 
 function generateXMLConditions() {
   if (data.length === 0) {
