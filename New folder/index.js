@@ -68,6 +68,7 @@ function parsePreferences(preferences, groupName) {
         let values = preferences[i].querySelectorAll(
             'context[name="Teamcenter"] > value'
         );
+        
         for (let j = 0; j < values.length; j++) {
             let el = values[j].textContent.split("Unterprozess");
             if (el.length < 2 && (p1 >= 2 || p2 >= 2 || p3 >= 2)) {
