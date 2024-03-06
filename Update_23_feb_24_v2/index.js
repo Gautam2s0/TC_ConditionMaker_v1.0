@@ -32,6 +32,8 @@ function parseXML() {
     } else {
         alert("Please select the XML file.");
     }
+    console.log({data})
+    console.log({objectData})
 }
 
 // Function to parse individual XML file
@@ -360,6 +362,7 @@ function trim(name) {
         .replace(/[ä]/g, "ae")
         .replace(/[Ä]/g, "Ae")
         .replace(/[ß]/g, "ss")
+        .replace(/[Ã¼]/g, "Ue")
         .replace(/[.,\/()\\=>-]/g, "")
         .replace(/^[a-zA-Z]+(_[a-zA-Z]+)*$/, "")
         .replace(/\s+/g, "_");

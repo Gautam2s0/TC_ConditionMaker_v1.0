@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XML Parser</title>
+<link rel="stylesheet" href="./index.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=ISO 8859-15">
+ 
+</head>
+ 
+<body>
+<div class="nvbr">
+<label id="label" for="fileInput"  class="custom-file-input-label">1. Choose XML File</label>
+<input type="file" id="fileInput" multiple accept=".xml">
+<button onclick="parseXML()" id="b1">2. Parse XML</button>
+<button onclick="One_on_one()" id="b2">3. Show 1 on 1 Conditions</button>
+<!-- <button onclick="DownloadCondition()" id="b4">Download Conditions ↓</button> -->
+<button onclick="generateXMLConditions()" id="b3">4. Show / Download Group Condtions</button>
+</div>
+</div>
+<div class="encoding" id="encoding">
+<select id="encodingSelect" onchange="EncodingCharSet()">
+</select>
+</div>
+
+ 
+  <div id="result">
+<table>
+<thead id="thead">
+<tr>
+<th>No. </th>
+<th>WORKFLOW NAME</th>
+<th id="tho">OBJECT TYPE</th>
+<th id="thg">GROUP NAME</th>
+</tr>
+</thead>
+<tbody id="tbody">
+</tbody>
+</table>
+</div>
+ 
+  <div id="msg">
+<h1>Welcome</h1>
+ 
+    <div class="note">
+<h2>Note :</h2>
+<ol>
+<li>Ensure that the file name matches the group name. 
+<p>For example, if the group name is "Datenmanagement.Jansen" the XML file name should be "Datenmanagement"</p>
+</li>
+<li>If there is a site preference, the file should be named site.xml. </li>
+<li>The script is designed to operate with the _release_procedure object type except Unterprozess.</li>
+<li>You have the option to select multiple or single XML files simultaneously. </li>
+</ol>
+</div>
+ 
+   
+</div>
+ 
+ 
+</body>
+<script src="./index.js"></script> 
+
+</html>
