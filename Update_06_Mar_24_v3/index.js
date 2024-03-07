@@ -209,30 +209,48 @@ function generateXMLConditions() {
   let count = 1;
 
   for (const elem of organizedData) {
-    const cheker = [];
-    const concateArr = [];
-
-    elem.objects.forEach((el) => {
-      if (!cheker.includes(el.group)) {
-        cheker.push(el.group);
+    let cheker = [];
+    let concate = "";
+    let cleanName = trim(elem.workflow[0]);
+    elem.objects.map((el) =>
+      cheker.includes(el.group) ? "" : cheker.push(el.group)
+    );
+    if (cheker.length <= 1) {
+      for (let i = 0; i < elem.objects.length; i++) {
+        if (i == 0) {
+          concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot;`;
+        } else {
+          concate += ` OR wo.object_type=&quot;${elem.objects[i].object_type}&quot;`;
+        }
       }
-      concateArr.push(
-        el.group === "site"
-          ? `(wo.object_type=&quot;${el.object_type}&quot;)`
-          : `(wo.object_type=&quot;${el.object_type}&quot; AND us.group_name=&quot;${el.group}&quot;)`
-      );
-    });
+      concate += ")";
+      if (cheker[0] != "site") {
+        concate += ` AND (us.group_name=quot;${cheker[0]}&quot;)`;
+      }
 
+      console.log("single", { concate });
+    } else {
+      for (let i = 0; i < elem.objects.length; i++) {
+        //AND us.group_name=&quot;dba&quot;
 
+        if (i == 0) {
+          if (elem.objects[i].group == "site") {
+            concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
+          } else {
+            concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
+          }
+        } else {
+          if (elem.objects[i].group == "site") {
+            concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
+          } else {
+            concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
+          }
+        }
+      }
 
-    let concate = concateArr.join(" OR ");
-    if (cheker.length > 1) {
-      concate = `(${concate})`;
-    } else if (cheker.length === 1 && cheker[0] !== "site") {
-      concate += ` AND (us.group_name=&quot;${cheker[0]}&quot;)`;
+      console.log("multi", { concate });
     }
 
-    let cleanName = trim(elem.workflow[0]);
     let desc = [...elem.workflow];
     let f = desc.slice(-2).join(" and ");
     if (elem.workflow.length > 1) {
@@ -240,14 +258,13 @@ function generateXMLConditions() {
       desc = elem.workflow.slice(0, elem.workflow.length - 2);
       desc.push(f);
     }
-
-    const p = `  <Condition name="${prefixName}WF_${cleanName}" expression="${concate}" secured="false" description="Workflow condition for ${desc.join(
+    let p = `  <Condition name="${prefixName}WF_${cleanName}" expression="${concate}" secured="false" description="Workflow condition for ${desc.join(
       ", "
     )}">
-    <ConditionParameter name="wo" parameterTypeName="WorkspaceObject"/>
-    <ConditionParameter name="it" parameterTypeName="ImanType"/>
-    <ConditionParameter name="us" parameterTypeName="UserSession"/>
-    </Condition>`;
+  <ConditionParameter name="wo" parameterTypeName="WorkspaceObject"/>
+  <ConditionParameter name="it" parameterTypeName="ImanType"/>
+  <ConditionParameter name="us" parameterTypeName="UserSession"/>
+  </Condition>`;
 
     wsData.push({
       workflow: elem.workflow.join("     \n"),
