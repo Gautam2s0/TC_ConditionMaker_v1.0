@@ -33,11 +33,12 @@ function parseXML() {
   } else {
     alert("Please select the XML file.");
   }
+  console.log({data})
 }
 
 // Function to parse individual XML file
 function parseFile(file) {
-  const groupName = file.name.split(".xml")[0];
+  const groupName = file.name.split(".xml")[0].split("_").join(" ");
   let reader = new FileReader();
   reader.onload = function (e) {
     let xmlString = e.target.result;
@@ -63,7 +64,7 @@ function parsePreferences(preferences, groupName) {
       .split("TC_")[1];
     let p1 = preferences[i].getAttribute("name").split("_release_procedure").length;
     // let p2 = name?.split("BCT4_").length;
-    // let p3 = name?.split("Revision").length;
+    let p3 = name?.split("Revision").length;
 
 
     let values = preferences[i].querySelectorAll(
@@ -72,7 +73,7 @@ function parsePreferences(preferences, groupName) {
 
     for (let j = 0; j < values.length; j++) {
       let el = values[j].textContent.split("Unterprozess");
-      if (el.length < 2 && (p1>=2)) {
+      if (el.length < 2 && (p1>=2 && p3>=2)) {
         let valueText = values[j].textContent.trim();
         data.push({ workflow: valueText, object_type: name, group: groupName });
         updateObjectData(valueText, name, groupName);
@@ -138,6 +139,7 @@ function One_on_one() {
   }
   TableRowNameChange("CONDITION NAME", "CONDITION");
   displayTable(data2);
+  console.log({data2})
 
   
 }
@@ -151,7 +153,7 @@ function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
   if (Uniquegroup.length <= 1) {
     for (let i = 0; i < object_type.length; i++) {
       if (i === 0) {
-        Condtion_Concate += `(wo.object_type="${object_type[i].object_type}"`;
+        Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
       }
        else {
         Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
@@ -177,56 +179,20 @@ function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
       }
     }
   }
+  let bh=`${prefixName}WF_${trim(key)}`
+  console.log({bh})
   data2.push({
     workflow: key,
-    condition_name: `${prefixName}${trim(key)}`,
+    condition_name: bh,
     condition: Condtion_Concate,
-  });
+  }); 
 }
 
 // ******************************************  Creating XML for Condtion *****************************
 
 
 
-function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
-    for (let el of object_type) {
-      if (!Uniquegroup.includes(el.group)) {
-        Uniquegroup.push(el.group);
-      }
-    }
-    for (let i = 0; i < object_type.length; i++){
-        if (Uniquegroup.length <= 1) {
-            if (i === 0) {
-                Condtion_Concate += `wo.object_type="${object_type[i].object_type}"`;
-              } else {
-                Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
-              }
 
-        }
-        else{
-            if (i === 0) {
-                if (object_type[i].group == "site") {
-                  Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
-                } else
-                  Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-              } else {
-                if (object_type[i].group === "site") {
-                  Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
-                } else {
-                  Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
-                }
-              }
-
-        }
-
-    }
-    data2.push({
-        workflow: key,
-        condition_name: `${prefixName}${trim(key)}`,
-        condition: Condtion_Concate,
-      });
-     
-  }
 
 function generateXMLConditions() {
   if (data.length === 0) {
@@ -256,6 +222,8 @@ function generateXMLConditions() {
           : `(wo.object_type=&quot;${el.object_type}&quot; AND us.group_name=&quot;${el.group}&quot;)`
       );
     });
+
+
 
     let concate = concateArr.join(" OR ");
     if (cheker.length > 1) {
@@ -413,6 +381,7 @@ function trim(name) {
     .replace(/[Ä]/g, "Ae")
     .replace(/[ß]/g, "ss")
     .replace(/[Ã¼]/g, "Ue")
+    .replace(/[¤]/g,"")
     .replace(/[.,\/()\\=>-]/g, "")
     .replace(/^[a-zA-Z]+(_[a-zA-Z]+)*$/, "")
     .replace(/\s+/g, "_");
