@@ -33,7 +33,7 @@ function parseXML() {
   } else {
     alert("Please select the XML file.");
   }
-  console.log({data})
+
 }
 
 // Function to parse individual XML file
@@ -139,7 +139,7 @@ function One_on_one() {
   }
   TableRowNameChange("CONDITION NAME", "CONDITION");
   displayTable(data2);
-  console.log({data2})
+  // console.log({data2})
 
   
 }
@@ -159,28 +159,28 @@ function CondtionMaker(object_type, Uniquegroup, Condtion_Concate, key, data2) {
         Condtion_Concate += ` OR wo.object_type="${object_type[i].object_type}"`;
       }
     }
-    let group = ` AND (us.group_name="${Uniquegroup[0]}"`;
+    let group = ` AND (us.fnd0getGroupName()="${Uniquegroup[0]}"`;
     Condtion_Concate = `(${Condtion_Concate})${
       Uniquegroup[0] === "site" ? "" : group
-    })`;z
+    })`;
   } else {
     for (let i = 0; i < object_type.length; i++) {
       if (i === 0) {
         if (object_type[i].group == "site") {
           Condtion_Concate += `(wo.object_type="${object_type[i].object_type}")`;
         } else
-          Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+          Condtion_Concate += `(wo.object_type="${object_type[i].object_type}" AND us.fnd0getGroupName()="${object_type[i].group}")`;
       } else {
         if (object_type[i].group === "site") {
           Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}")`;
         } else {
-          Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.group_name="${object_type[i].group}")`;
+          Condtion_Concate += ` OR (wo.object_type="${object_type[i].object_type}" AND us.fnd0getGroupName()="${object_type[i].group}")`;
         }
       }
     }
   }
   let bh=`${prefixName}WF_${trim(key)}`
-  console.log({bh})
+  // console.log({bh})
   data2.push({
     workflow: key,
     condition_name: bh,
@@ -225,10 +225,10 @@ function generateXMLConditions() {
       }
       concate += ")";
       if (cheker[0] != "site") {
-        concate += ` AND (us.group_name=quot;${cheker[0]}&quot;)`;
+        concate += ` AND (us.fnd0getGroupName()=&quot;${cheker[0]}&quot;)`;
       }
 
-      console.log("single", { concate });
+      // console.log("single", { concate });
     } else {
       for (let i = 0; i < elem.objects.length; i++) {
         //AND us.group_name=&quot;dba&quot;
@@ -237,18 +237,18 @@ function generateXMLConditions() {
           if (elem.objects[i].group == "site") {
             concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
           } else {
-            concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
+            concate += `(wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.fnd0getGroupName()=&quot;${elem.objects[i].group}&quot;)`;
           }
         } else {
           if (elem.objects[i].group == "site") {
             concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot;)`;
           } else {
-            concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.group_name=&quot;${elem.objects[i].group}&quot;)`;
+            concate += ` OR (wo.object_type=&quot;${elem.objects[i].object_type}&quot; AND us.fnd0getGroupName()=&quot;${elem.objects[i].group}&quot;)`;
           }
         }
       }
 
-      console.log("multi", { concate });
+      // console.log("multi", { concate });
     }
 
     let desc = [...elem.workflow];
@@ -258,6 +258,7 @@ function generateXMLConditions() {
       desc = elem.workflow.slice(0, elem.workflow.length - 2);
       desc.push(f);
     }
+    console.log({expression:concate})
     let p = `  <Condition name="${prefixName}WF_${cleanName}" expression="${concate}" secured="false" description="Workflow condition for ${desc.join(
       ", "
     )}">
